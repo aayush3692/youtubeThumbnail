@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ImageUploadPage from './components/ImageUploadPage';
 import TextEditorPage from './components/TextEditorPage';
+import { Analytics } from "@vercel/analytics/next"
 
 export interface TextElement {
   id: string;
@@ -53,6 +54,8 @@ function App() {
           onBack={handleBackToUpload}
         />
       )}
+
+      <Analytics/>
     </div>
   );
 }
