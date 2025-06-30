@@ -151,20 +151,28 @@ const TextEditorPage: React.FC<TextEditorPageProps> = ({
   const selectedElement = textElements.find(el => el.id === selectedTextId);
 
   return (
-    <div className="min-h-screen flex">
-      {/* Canvas Area */}
-      <div className="flex-1 p-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-white transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            Back to Upload
-          </button>
+    <div className="min-h-screen flex flex-col">
+      {/* Logo Header */}
+      <div className="w-full py-4 px-6 border-b border-gray-800 bg-[#0B0A0D]">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <img 
+              src="/white_circle_360x360.png" 
+              alt="Logo" 
+              className="w-10 h-10 object-contain"
+            />
+            <h2 className="text-lg font-semibold text-[#F2F2F2]">Thumbnail Editor</h2>
+          </div>
           
           <div className="flex items-center gap-4">
+            <button
+              onClick={onBack}
+              className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-white transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Back to Upload
+            </button>
+            
             <button
               onClick={addTextElement}
               className="flex items-center gap-2 px-4 py-2 bg-[#5A588C] hover:bg-[#5A588C]/80 rounded-lg transition-colors"
@@ -182,61 +190,67 @@ const TextEditorPage: React.FC<TextEditorPageProps> = ({
             </button>
           </div>
         </div>
-
-        {/* Canvas Container */}
-        <div className="flex justify-center">
-          <div 
-            ref={containerRef}
-            className="relative bg-gray-900 rounded-lg overflow-hidden shadow-2xl"
-            style={{ aspectRatio: '16/9', width: '100%', maxWidth: '800px' }}
-          >
-            <img
-              src={image}
-              alt="Thumbnail base"
-              className="w-full h-full object-cover"
-            />
-            
-            {/* Text Elements */}
-            {textElements.map(element => (
-              <EditableText
-                key={element.id}
-                element={element}
-                isSelected={selectedTextId === element.id}
-                onSelect={() => setSelectedTextId(element.id)}
-                onUpdate={(updates) => updateTextElement(element.id, updates)}
-                containerRef={containerRef}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Hidden canvas for export */}
-        <canvas ref={canvasRef} className="hidden" />
       </div>
 
-      {/* Controls Panel */}
-      {selectedElement && (
-        <TextControls
-          textElement={selectedElement}
-          onUpdate={(updates) => updateTextElement(selectedElement.id, updates)}
-          onDelete={() => deleteTextElement(selectedElement.id)}
-        />
-      )}
-
-      {/* Empty State Panel */}
-      {!selectedElement && (
-        <div className="w-80 bg-[#1A1B23] border-l border-gray-800 p-6">
-          <div className="text-center space-y-4 mt-20">
-            <div className="w-16 h-16 bg-[#5A588C]/20 rounded-full flex items-center justify-center mx-auto">
-              <Type className="w-8 h-8 text-[#5A588C]" />
+      {/* Main Content */}
+      <div className="flex flex-1">
+        {/* Canvas Area */}
+        <div className="flex-1 p-6">
+          {/* Canvas Container */}
+          <div className="flex justify-center h-full">
+            <div 
+              ref={containerRef}
+              className="relative bg-gray-900 rounded-lg overflow-hidden shadow-2xl"
+              style={{ aspectRatio: '16/9', width: '100%', maxWidth: '800px', height: 'fit-content' }}
+            >
+              <img
+                src={image}
+                alt="Thumbnail base"
+                className="w-full h-full object-cover"
+              />
+              
+              {/* Text Elements */}
+              {textElements.map(element => (
+                <EditableText
+                  key={element.id}
+                  element={element}
+                  isSelected={selectedTextId === element.id}
+                  onSelect={() => setSelectedTextId(element.id)}
+                  onUpdate={(updates) => updateTextElement(element.id, updates)}
+                  containerRef={containerRef}
+                />
+              ))}
             </div>
-            <h3 className="text-lg font-semibold text-[#F2F2F2]">Add Text to Get Started</h3>
-            <p className="text-gray-400 text-sm">
-              Click "Add Text" to create your first text element, then select it to customize
-            </p>
           </div>
+
+          {/* Hidden canvas for export */}
+          <canvas ref={canvasRef} className="hidden" />
         </div>
-      )}
+
+        {/* Controls Panel */}
+        {selectedElement && (
+          <TextControls
+            textElement={selectedElement}
+            onUpdate={(updates) => updateTextElement(selectedElement.id, updates)}
+            onDelete={() => deleteTextElement(selectedElement.id)}
+          />
+        )}
+
+        {/* Empty State Panel */}
+        {!selectedElement && (
+          <div className="w-80 bg-[#1A1B23] border-l border-gray-800 p-6">
+            <div className="text-center space-y-4 mt-20">
+              <div className="w-16 h-16 bg-[#5A588C]/20 rounded-full flex items-center justify-center mx-auto">
+                <Type className="w-8 h-8 text-[#5A588C]" />
+              </div>
+              <h3 className="text-lg font-semibold text-[#F2F2F2]">Add Text to Get Started</h3>
+              <p className="text-gray-400 text-sm">
+                Click "Add Text" to create your first text element, then select it to customize
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
