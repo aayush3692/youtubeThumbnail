@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import ImageUploadPage from './components/ImageUploadPage';
 import TextEditorPage from './components/TextEditorPage';
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 
 export interface TextElement {
   id: string;
